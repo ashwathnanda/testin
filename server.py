@@ -18,7 +18,7 @@ for i in range(len(l)):
 #adding the tags onto the processor
 key_processor.add_keywords_from_list(my_list2)
 
-class User(Resource):
+class Fetch_code(Resource):
    def get(self, name):
       name.lower()
       ans = key_processor.extract_keywords(name)
@@ -28,8 +28,7 @@ class User(Resource):
          if(ans == l[i]):
             return data['Snippet'][i], 200
       return 'requirement not found' , 404
-
       
-api.add_resource(User, "/user/<string:name>")
 
+api.add_resource(Fetch_code, "/fetch/<string:name>")
 app.run(debug=True, port = 8080 , host = '0.0.0.0')
