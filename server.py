@@ -11,24 +11,23 @@ key_processor = KeywordProcessor()
 data = pd.read_csv('dataset/data_tag.csv')
 l = list(data['Tag'])
 my_list2 = []
-for i in range(len(l)):
-	m = l[i]
+for i,m in enumerate(l):
 	my_list2.extend(m.split(','))
 	
 #adding the tags onto the processor
 key_processor.add_keywords_from_list(my_list2)
 
 class Fetch_code(Resource):
-   def get(self, name):
-      name.lower()
-      ans = key_processor.extract_keywords(name)
+   def get(self, code):
+      code.lower()
+      ans = key_processor.extract_keywords(code)
       ans.sort()
       ans = ','.join(ans)
-      for i in range(len(l)):
-         if(ans == l[i]):
+      for i,item in enumerate(l):
+         if(ans == item):
             return data['Snippet'][i], 200
       return 'requirement not found' , 404
-      
+   
 
-api.add_resource(Fetch_code, "/fetch/<string:name>")
-app.run( port = 8080 )
+api.add_resource(Fetch_code, "/fetch/<string:code>")
+app.run(port = 8080)
